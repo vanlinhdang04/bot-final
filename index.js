@@ -11,6 +11,7 @@ client.config = require('./config/bot.json');
 client.emotes = require('./config/emojis.json');
 client.filters = require('./config/filters.json');
 loikhuyen = require('./loikhuyen.json');
+var temp_loikhuyen = loikhuyen;
 client.commands = new discord.Collection();
 
 fs.readdir('./events/', (err, files) => {
@@ -52,7 +53,15 @@ client.on('message', async msg => {
         const command = args[0].toLowerCase();
         console.log(command);
         if (command === 'loikhuyen') {
-            return msg.reply(loikhuyen.loikhuyen[Math.floor(Math.random() * loikhuyen.loikhuyen.length)]);
+            if( temp_loikhuyen.loikhuyen.length < 1 ){
+                temp_loikhuyen = loikhuyen;
+            }
+            var rand = Math.floor(Math.random() * temp_loikhuyen.loikhuyen.length);
+
+            msg.reply(temp_loikhuyen.loikhuyen[rand]);
+            temp_loikhuyen.loikhuyen.splice(rand,1);
+            console.log(temp_loikhuyen.loikhuyen.length);
+            return;
         }
     }
 })
