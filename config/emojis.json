@@ -2,5 +2,22 @@
     "music": ":musical_note:",
     "queue": ":bar_chart:",
     "error": ":x:",
-    "success": ":white_check_mark:"
+    "success": ":white_check_mark:",
+    "cfs": [
+        ":eyes:",
+        ":100:",
+        ":watermelon:",
+        ":kiwi:",
+        ":apple",
+        ":pineapple:",
+        ":green_apple:",
+        ":heart:",
+        ":santa:",
+        ":banana:",
+        ":lemon:",
+        ":coconut:",
+        ":peach:",
+        ":strawberry:",
+        ":mango:"
+    ]
 }
