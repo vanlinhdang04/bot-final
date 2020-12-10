@@ -61,16 +61,19 @@ client.on('message', async msg => {
         console.log(command);
 
         if (command === 'loikhuyen') {
-            if( temp_loikhuyen.loikhuyen.length < 1 ){
+            if( temp_loikhuyen.loikhuyen_new.length < 1 ){
+                msg.channel.send("Hết lời khuyên mới rồi. Cập nhật đi anh Linh.");
                 temp_loikhuyen = loikhuyen;
             }
-            var rand = Math.floor(Math.random() * temp_loikhuyen.loikhuyen.length);
+            var rand = Math.floor(Math.random() * temp_loikhuyen.loikhuyen_new.length);
 
-            msg.reply(temp_loikhuyen.loikhuyen[rand]);
-            temp_loikhuyen.loikhuyen.splice(rand,1);
-            console.log(temp_loikhuyen.loikhuyen.length);
+            msg.reply(temp_loikhuyen.loikhuyen_new[rand]);
+            temp_loikhuyen.loikhuyen_new.splice(rand,1);
+            console.log(temp_loikhuyen.loikhuyen_new.length);
+            //console.log("loi khuyen moi thah cong");
             return;
         }
+        
         if (command === 'addloinhan') {
             const noidung = msg.content.slice(12);
             cfs.cfs.push(noidung);
