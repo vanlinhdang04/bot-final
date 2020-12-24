@@ -123,7 +123,7 @@ client.on('message', async msg => {
             if ( nd.indexOf("co") != -1 ){
                 var vt1 = nd.indexOf("co");
                 var vt2 = (nd.indexOf("khong") != -1)?nd.indexOf("khong"):nd.length;
-                console.log(vt2);
+                //console.log(vt2);
                 traloi.push(noidung.substring(vt1 , vt2));
                 traloi.push("không có nha.");
                 traloi.push("chắc có thể chứ mình không chắc. :relaxed:");
@@ -158,12 +158,42 @@ client.on('message', async msg => {
                 traloi.push("tôn trọng người khác trước khi muốn được người khác tôn trọng :angry:");
                 traloi.push("trong câu hỏi của bạn có những từ không lành mạnh nên mình xin phép không trả lời");
             }
-            
+            if (nd.indexOf("duoc khong") != -1){
+                var vt2 = nd.indexOf("duoc khong");
+                var vt1 = (nd.indexOf("toi") != -1 )?nd.indexOf("toi")+3:0;
+                traloi.push(noidung.slice(vt1,vt2) + "được nha.");
+                traloi.push(noidung.slice(vt1,vt2) + "không được nha.");
+                //traloi.push("không được, "+noidung.slice(0))
+                traloi.push("được luôn bạn.Mình ủng hộ.");
+                traloi.push("không được như vậy nha");
+                traloi.push("được thì được đấy nhưng cẩn thận");
+            }
+            // if (nd.indexOf("duoc chua") != -1){
+                
+            //     var vt2 = nd.indexOf("duoc chua");
+            //     console.log(vt1,vt2);
+            //     var vt1 = (nd.indexOf("toi") != -1 )?nd.indexOf("toi")+3:0;
+            //     traloi.push(noidung.slice(vt1,vt2) + "được nha.");
+            //     traloi.push(noidung.slice(vt1,vt2) + "chưa được nha.");
+            //     //traloi.push("không được, "+noidung.slice(0))
+            //     traloi.push("được luôn bạn.Mình ủng hộ.");
+            //     traloi.push("chưa phải lúc đâu.");
+            //     traloi.push("được thì được đấy nhưng cẩn thận");
+            // }
             if( traloi.length == 0 ){
-                traloi.push("hãy tin vào quyết định của bản thân");
-                traloi.push("cái này mình không giúp được. Bạn cứ thử làm điều bạn thích xem sao.");
-                traloi.push("mình chỉ đưa ra ý kiến khách quan thôi còn mọi chuyện vẫn phải do bạn tự quyết định đấy.");
-                traloi.push("mình không giúp được gì rồi. Hỏi Văn Linh thử xem.");
+                
+                if (nd.indexOf("khong") > nd.length-6){
+                    traloi.push("không đâu bạn");
+                    traloi.push("mình nghĩ là có.");
+                    traloi.push("có hay không thì mình không biết.");
+                }
+                else{
+                    traloi.push("hãy tin vào quyết định của bản thân");
+                    traloi.push("cái này mình không giúp được. Bạn cứ thử làm điều bạn thích xem sao.");
+                    traloi.push("mình chỉ đưa ra ý kiến khách quan thôi còn mọi chuyện vẫn phải do bạn tự quyết định đấy.");
+                    traloi.push("mình không giúp được gì rồi. Hỏi Văn Linh thử xem.");
+                }
+                
             }
             msg.reply(traloi[Math.floor(Math.random() * traloi.length)]);
         }
