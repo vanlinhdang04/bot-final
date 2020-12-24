@@ -4,6 +4,7 @@ const discord = require('discord.js');
 const client = new discord.Client({ disableMentions: 'everyone' });
 
 const { Player } = require('discord-player');
+const { search } = require('ffmpeg-static');
 
 const player = new Player(client);
 client.player = player;
@@ -51,6 +52,23 @@ function removeAccents(str) {
               .replace(/[\u0300-\u036f]/g, '')
               .replace(/đ/g, 'd').replace(/Đ/g, 'D');
 }
+function xoa_dau(str) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+    str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+    str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+    str = str.replace(/Đ/g, "D");
+    return str;
+}
 
 client.on('message', async msg => {
     //if (msg.author.bot) return;
@@ -61,17 +79,93 @@ client.on('message', async msg => {
         console.log(command);
 
         if (command === 'loikhuyen') {
-            if( temp_loikhuyen.loikhuyen_new.length < 1 ){
+            if( temp_loikhuyen.loikhuyen.length < 1 ){
                 msg.channel.send("Hết lời khuyên mới rồi. Cập nhật đi anh Linh.");
                 temp_loikhuyen = loikhuyen;
             }
-            var rand = Math.floor(Math.random() * temp_loikhuyen.loikhuyen_new.length);
+            var rand = Math.floor(Math.random() * temp_loikhuyen.loikhuyen.length);
 
-            msg.reply(temp_loikhuyen.loikhuyen_new[rand]);
-            temp_loikhuyen.loikhuyen_new.splice(rand,1);
-            console.log(temp_loikhuyen.loikhuyen_new.length);
-            //console.log("loi khuyen moi thah cong");
+            msg.reply(temp_loikhuyen.loikhuyen[rand]);
+            temp_loikhuyen.loikhuyen.splice(rand,1);
+            console.log(temp_loikhuyen.loikhuyen.length);
+
+            console.log("còn "+temp_loikhuyen.loikhuyen.length);
             return;
+        }
+
+        if (command === 'reply') {
+            var noidung = msg.content.slice(7).toLowerCase();
+            var traloi = new Array();
+            var nd = xoa_dau(noidung);
+            //noidung = xoa_dau(noidung);
+            if(nd.indexOf("giup toi") != -1 || nd.indexOf("xin chao") != -1 || nd.indexOf("chao") != -1 || nd.indexOf("tra loi") != -1){
+                traloi.push("Xin chào, tôi có thể giúp bạn vài câu hỏi đơn giản.:blush:");
+            }
+            if( nd.indexOf("hay") != -1 ) {
+                if( nd.indexOf("nen") != -1 ){
+                    var vt1 = nd.indexOf("nen");
+                    var vt2 = nd.lastIndexOf("hay");
+                    traloi.push(noidung.slice(vt1 + 3,vt2));
+                    traloi.push(noidung.slice(vt2 + 3));
+                    //msg.reply(traloi[Math.floor(Math.random() * traloi.length)]);
+                }
+                var vt1 = xoa_dau(noidung).lastIndexOf("hay");
+                traloi.push(noidung.substring(vt1 , 0));
+                traloi.push(noidung.slice(vt1 + 3));  
+            }
+            if( nd.indexOf("hay") == -1 && nd.indexOf("nen") != -1 ) {
+                var vt1 = nd.indexOf("nen");
+                var vt2 = (nd.indexOf("khong") != -1)?nd.indexOf("khong"):nd.length;
+                //console.log(vt2);
+                traloi.push(noidung.substring(vt1 , vt2));
+                traloi.push("mình nghĩ là không nên đâu.");
+            }
+            if ( nd.indexOf("co") != -1 ){
+                var vt1 = nd.indexOf("co");
+                var vt2 = (nd.indexOf("khong") != -1)?nd.indexOf("khong"):nd.length;
+                console.log(vt2);
+                traloi.push(noidung.substring(vt1 , vt2));
+                traloi.push("không có nha.");
+                traloi.push("chắc có thể chứ mình không chắc. :relaxed:");
+                traloi.push("có là cái chắc rồi :smile:")
+            }
+            if ( nd.indexOf("that khong") != -1){
+                traloi.push("thật đấy bạn ạ.");
+                traloi.push("không nên quá tin những lời đồn từ bên ngoài.");
+            }
+            if ( nd.indexOf("chac") != -1){
+                traloi.push("không chắc chắn lắm.");
+                traloi.push("chắc chắn luôn nha.");
+                traloi.push("không phải như bạn nghĩ đâu");
+            }
+            if (nd.indexOf("toi") != -1 && nd.indexOf("nha") != -1){
+                traloi.push("ok bạn nè.");
+                traloi.push("nghe được đấy.");
+                traloi.push("thôi đừng");
+            }
+            if (nd.indexOf("nha") != -1){
+                traloi.push("ok bạn nè.");
+                traloi.push("nghe được đấy.");
+                traloi.push("thôi đừng");
+                traloi.push("được luôn bạn");
+            }
+            if (nd.indexOf("ngu ngon") != -1 || nd.indexOf("ngu ngoan") != -1){
+                traloi.push("chúc bạn ngủ ngon nha.:kissing_heart:");
+                traloi.push("mơ đẹp nha. :sleeping:")
+            }
+            if( nd.indexOf("dm") != -1 || nd.indexOf("dcm") != -1 || nd.indexOf("clm") != -1 || nd.indexOf("vl") != -1 || nd.indexOf("vcl") != -1 ) {
+                traloi.push("hãy đặt câu hỏi lịch sự đi ạ :pleading_face:");
+                traloi.push("tôn trọng người khác trước khi muốn được người khác tôn trọng :angry:");
+                traloi.push("trong câu hỏi của bạn có những từ không lành mạnh nên mình xin phép không trả lời");
+            }
+            
+            if( traloi.length == 0 ){
+                traloi.push("hãy tin vào quyết định của bản thân");
+                traloi.push("cái này mình không giúp được. Bạn cứ thử làm điều bạn thích xem sao.");
+                traloi.push("mình chỉ đưa ra ý kiến khách quan thôi còn mọi chuyện vẫn phải do bạn tự quyết định đấy.");
+                traloi.push("mình không giúp được gì rồi. Hỏi Văn Linh thử xem.");
+            }
+            msg.reply(traloi[Math.floor(Math.random() * traloi.length)]);
         }
         
         if (command === 'addloinhan') {
@@ -98,4 +192,4 @@ client.on('message', async msg => {
 
 
 client.login(process.env.BOT_TOKEN);
-//client.login(client.config.token);
+//client.login("");

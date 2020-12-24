@@ -604,10 +604,6 @@
         "Khăn giải thuật có thể xóa hết các cây lao của Kalista",
         "Tường băng của Anivia và Cột băng của Trundle có khả năng hất tung cả đồng đội",
         "Có thể giấu quả cầu của Orianna trong địa hình hoặc sau tường để gây bất ngờ",
-        "Cấp độ phân thân từ chiêu cuối của Shaco luôn giống với lần cuối tướng đối phương nhìn thấy hắn."
-    ],
-    
-    "loikhuyen_new" : [
         "Để hạn chế xui xẻo của bản thân trong năm 2021, nhất định phải chú ý cách hành xử của mình, cố gắng giữ thái độ khiêm tốt, dĩ hòa vi quý. ",
         "Vận khí sa sút, vận xui đeo bám, cần kiềm chế bản thân, thái độ đúng mực, nói ít làm nhiều, đừng thể hiện quá sắc sảo, cũng đừng phán xét chuyện của người khác, tránh xa thị phi tranh cãi.",
         "Bất kể trong cuộc sống hay trong công việc, cũng nên tập trung và nghiêm túc với những gì mình đang làm, tránh đứng núi này trông núi nọ, chân trong chân ngoài kẻo sẽ không thể làm tốt được bất cứ việc gì. ",
@@ -707,5 +703,13 @@
         "Dự báo rằng bạn sẽ có lộc về ăn uống.",
         "Hãy xác định hướng đi cho tương lai trước khi quá muộn",
         "Cân bằng việc chơi và việc học"
+    ],
+    "nenkhong" : [
+        "theo em nghĩ là nên",
+        "nên ạ.",
+        "hơi mạo hiểm nhưng nên.",
+        "không nên nha",
+        "tuyệt đối không nên"
     ]
+    
 }
