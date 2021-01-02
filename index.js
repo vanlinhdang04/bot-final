@@ -6,6 +6,11 @@ const client = new discord.Client({ disableMentions: 'everyone' });
 const { Player } = require('discord-player');
 const { search } = require('ffmpeg-static');
 
+var lucky = 0;
+var profile = new Array();
+var day = new Date();
+var users = new Array();
+
 const player = new Player(client);
 client.player = player;
 client.config = require('./config/bot.json');
@@ -79,18 +84,69 @@ client.on('message', async msg => {
         console.log(command);
 
         if (command === 'loikhuyen') {
-            if( temp_loikhuyen.new.length < 1 ){
+            lucky = lucky + 1;
+            console.log("Đang có " + temp_loikhuyen.loikhuyen.length + " lời khuyên");
+            if( temp_loikhuyen.loikhuyen.length == 0 ){
                 msg.channel.send("Hết lời khuyên mới rồi. Cập nhật đi anh Linh.");
-                temp_loikhuyen.new = loikhuyen.loikhuyen;
+                temp_loikhuyen.loikhuyen = loikhuyen.loikhuyen;
             }
-            var rand = Math.floor(Math.random() * temp_loikhuyen.new.length);
+            var rand = Math.floor(Math.random() * temp_loikhuyen.loikhuyen.length);
 
-            msg.reply(temp_loikhuyen.new[rand]);
-            temp_loikhuyen.new.splice(rand,1);
-            console.log(temp_loikhuyen.new.length);
+            msg.reply(temp_loikhuyen.loikhuyen[rand]);
+            console.log( "Chọn lời khuyên thứ " +rand);
+            temp_loikhuyen.loikhuyen.splice(rand,1);
+            console.log( "Xóa lời khuyên thứ " +rand);
+            console.log("Còn "+temp_loikhuyen.loikhuyen.length +" lời khuyên");
 
-            console.log("còn "+temp_loikhuyen.new.length);
+            if ( profile[msg.member.id] == undefined ){
+                profile[msg.member.id] = {
+                    "name" : msg.member.displayName,
+                    "count" : 1,
+                    "lastDate" : new Date(),
+                    "createDay" : new Date()
+                }
+                users.push(profile[msg.member.id]);
+                //console.log(new Date().toLocaleString("en-US", {timeZone: "America/New_York"})); // hiển thị thời gian
+                console.log("Tạo thành công profile cho "+ msg.member.displayName);
+            }
+            else{
+                var today = new Date();
+                var diff = new Date( today.getTime() - profile[msg.member.id].lastDate.getTime());
+                console.log(diff.getUTCFullYear() - 1970, diff.getUTCMonth(), diff.getUTCDate() - 1);
+                if ( diff.getUTCDate() - 1 > 1 || diff.getUTCMonth() != 0 || diff.getUTCFullYear() - 1970 != 0){
+                    msg.reply("Bạn đã không cần lời khuyên trong " + diff.getUTCDate() - 1 + " ngày " + diff.getUTCMonth() + " tháng, có chuyện gì với bạn sao ?");
+                }
+                profile[msg.member.id].name = msg.member.displayName;
+                profile[msg.member.id].count += 1;
+                profile[msg.member.id].lastDate = new Date();
+            }
+            
+            //console.log(profile[msg.member.id]);
+
+            if( lucky % 10 == 0 ) {
+                msg.reply("Xin chúc mừng! Bạn đã nhận được lời khuyên thứ " + lucky + " trong bản cập nhật này. Xin tiếp tục cố gắng.")
+            }
             return;
+        }
+
+        if (command === 'check') {
+            var noidung = msg.content.slice(7).replace(/[^a-z0-9\s]/gi, '');
+            console.log(profile[noidung]);
+            if (profile[noidung] === undefined){
+                msg.channel.send("Người dùng này chưa tham gia dịch vụ.");
+                return;
+            }
+            var today = new Date();
+            var diff = new Date( today.getTime() - profile[msg.member.id].createDay.getTime());
+
+
+            msg.channel.send(
+                "Tham gia từ "+ profile[noidung].createDay.toLocaleString("en-US", {timeZone: "America/New_York"}) + " đến hiện tại" +
+                "\nTên : " + profile[noidung].name +
+                "\n Số lần nhận lời khuyên : " + profile[noidung].count +
+                "\n Lần cuối nhận lời khuyên : " + profile[noidung].lastDate.toLocaleString("en-US", {timeZone: "America/New_York"}) +
+                "\n Trung bình nhận "+ Math.abs(profile[noidung].count / diff.getUTCDate()) +" lời khuyên/ngày"
+            );
         }
 
         if (command === 'reply') {
@@ -200,6 +256,7 @@ client.on('message', async msg => {
         
         if (command === 'addloinhan') {
             const noidung = msg.content.slice(12);
+            //console.log(noidung);
             cfs.cfs.push(noidung);
             msg.reply(`${client.emotes.success} Cám ơn bạn đã thêm lời nhắn.`);
             console.log(cfs.cfs.length);
