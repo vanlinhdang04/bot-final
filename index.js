@@ -123,10 +123,7 @@ client.on('message', async msg => {
             
             //console.log(profile[msg.member.id]);
 
-            if( lucky % 10 == 0 ) {
-                msg.reply("Xin chúc mừng! Bạn đã nhận được lời khuyên thứ " + lucky + " trong bản cập nhật này. Xin tiếp tục cố gắng.")
-            }
-            return;
+            
         }
 
         if (command === 'check') {
