@@ -1,5 +1,6 @@
 const fs = require('fs');
 const discord = require('discord.js');
+const axios = require('axios');
 
 const client = new discord.Client({ disableMentions: 'everyone' });
 
@@ -144,6 +145,15 @@ client.on('message', async msg => {
                 "\n Lần cuối nhận lời khuyên : " + profile[noidung].lastDate.toLocaleString("en-US", {timeZone: "America/New_York"}) +
                 "\n Trung bình nhận "+ Math.abs(profile[noidung].count / diff.getUTCDate()) +" lời khuyên/ngày"
             );
+        } else {
+            var content = msg.content.slice(1);
+            axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false")
+                      .then(function (response) {
+                msg.reply(response.success);
+            }) .catch(function (error) {
+                console.log(error);
+                msg.reply("Lỗi rùi");
+            })
         }
 
         if (command === 'reply') {
