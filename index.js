@@ -80,7 +80,7 @@ client.on('message', async msg => {
     if (msg.author.bot) return;
     var content = msg.content.slice(1);
     console.log(content);
-    msg.reply("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false);
+    msg.reply("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
     
     try {
         const response = await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
