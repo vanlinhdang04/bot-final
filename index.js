@@ -79,7 +79,7 @@ function xoa_dau(str) {
 client.on('message', async msg => {
     if (msg.author.bot) return;
     //var content = msg.content.slice(1);
-    console.log(content);
+    //console.log(content);
     //msg.reply("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
     
     try {
