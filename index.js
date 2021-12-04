@@ -83,7 +83,9 @@ client.on('message', async msg => {
     //msg.reply("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
     
     try {
-        const response = await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
+        const url = "https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false";
+        url = encodeURI(url);
+        const response = await axios.get(url);
         msg.reply(response.data.success);
     }
     catch (error) {
