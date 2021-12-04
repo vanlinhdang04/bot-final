@@ -78,7 +78,16 @@ function xoa_dau(str) {
 
 client.on('message', async msg => {
     //if (msg.author.bot) return;
-
+    var content = msg.content.slice(1);
+    console.log(content);
+    await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false")
+              .then(function (response) {
+        msg.reply(response.success);
+    }) .catch(function (error) {
+        console.log(error);
+        msg.reply("Lỗi rùi");
+    })
+    
     if (msg.content.startsWith(client.config.prefix)) {
         const args = msg.content.slice(client.config.prefix.length).split(/ +/);
         const command = args[0].toLowerCase();
@@ -145,15 +154,6 @@ client.on('message', async msg => {
                 "\n Lần cuối nhận lời khuyên : " + profile[noidung].lastDate.toLocaleString("en-US", {timeZone: "America/New_York"}) +
                 "\n Trung bình nhận "+ Math.abs(profile[noidung].count / diff.getUTCDate()) +" lời khuyên/ngày"
             );
-        } else {
-            var content = msg.content.slice(1);
-            axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false")
-                      .then(function (response) {
-                msg.reply(response.success);
-            }) .catch(function (error) {
-                console.log(error);
-                msg.reply("Lỗi rùi");
-            })
         }
 
         if (command === 'reply') {
