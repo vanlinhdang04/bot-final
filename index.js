@@ -78,13 +78,13 @@ function xoa_dau(str) {
 
 client.on('message', async msg => {
     if (msg.author.bot) return;
-    var content = msg.content.slice(1);
+    //var content = msg.content.slice(1);
     console.log(content);
     //msg.reply("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
     
     try {
-        const url = "https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false";
-        url = encodeURI(url);
+        const url = "https://api.simsimi.net/v2/?text="+msg.content+"&lc=vn&cf=false";
+        url = url.toLowerCase();
         const response = await axios.get(url);
         msg.reply(response.data.success);
     }
