@@ -81,13 +81,14 @@ client.on('message', async msg => {
     var content = msg.content.slice(1);
     console.log(content);
     msg.reply(content);
-//     await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false")
-//               .then(function (response) {
-//         msg.reply(response.success);
-//     }) .catch(function (error) {
-//         console.log(error);
-//         msg.reply("Lỗi rùi");
-//     })
+    
+    try {
+        const response = await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
+        msg.reply(response.success);
+    }
+    catch (error) {
+        msg.reply("Lỗi rùi");
+    }
     
     if (msg.content.startsWith(client.config.prefix)) {
         const args = msg.content.slice(client.config.prefix.length).split(/ +/);
