@@ -77,7 +77,7 @@ function xoa_dau(str) {
 }
 
 client.on('message', async msg => {
-    //if (msg.author.bot) return;
+    if (msg.author.bot) return;
     var content = msg.content.slice(1);
     console.log(content);
     msg.reply(content);
