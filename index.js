@@ -84,10 +84,10 @@ client.on('message', async msg => {
     
     try {
         const response = await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
-        msg.reply(response.success);
+        msg.reply(response.data.success);
     }
     catch (error) {
-        msg.reply("Lỗi rùi");
+        msg.reply("Lỗi rùi" + error);
     }
     
     if (msg.content.startsWith(client.config.prefix)) {
