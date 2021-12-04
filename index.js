@@ -80,13 +80,14 @@ client.on('message', async msg => {
     //if (msg.author.bot) return;
     var content = msg.content.slice(1);
     console.log(content);
-    await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false")
-              .then(function (response) {
-        msg.reply(response.success);
-    }) .catch(function (error) {
-        console.log(error);
-        msg.reply("Lỗi rùi");
-    })
+    msg.reply(content);
+//     await axios.get("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false")
+//               .then(function (response) {
+//         msg.reply(response.success);
+//     }) .catch(function (error) {
+//         console.log(error);
+//         msg.reply("Lỗi rùi");
+//     })
     
     if (msg.content.startsWith(client.config.prefix)) {
         const args = msg.content.slice(client.config.prefix.length).split(/ +/);
