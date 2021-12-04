@@ -83,9 +83,14 @@ client.on('message', async msg => {
     //msg.reply("https://api.simsimi.net/v2/?text="+content+"&lc=vn&cf=false");
     
     try {
-        const url = "https://api.simsimi.net/v2/?text="+msg.content+"&lc=vn&cf=false";
-        url = url.toLowerCase();
-        const response = await axios.get(url);
+      
+        const response = await axios.get("https://api.simsimi.net/v2/",{
+                params : {
+                    text: msg.content,
+                    lc: "vn",
+                    cf: false
+                }
+                });
         msg.reply(response.data.success);
     }
     catch (error) {
